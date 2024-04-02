@@ -1,0 +1,52 @@
+DROP TABLE IF EXISTS session CASCADE;
+DROP TABLE IF EXISTS finance_goal CASCADE;
+DROP TABLE IF EXISTS expense CASCADE;
+DROP TABLE IF EXISTS expense_category CASCADE;
+DROP TABLE IF EXISTS app_user CASCADE;
+
+CREATE TABLE IF NOT EXISTS app_user (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS expense_category (
+    id SERIAL PRIMARY KEY,
+    category VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS expense (
+    id SERIAL PRIMARY KEY,
+    category_id INT NOT NULL,
+    user_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    expense_date DATE NOT NULL,
+    description VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES app_user(id),
+    FOREIGN KEY (category_id) REFERENCES expense_category(id)
+);
+
+CREATE TABLE IF NOT EXISTS finance_goal (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    goal_name VARCHAR(50) NOT NULL,
+    goal_amount DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES app_user(id)
+);
+
+CREATE TABLE IF NOT EXISTS session (
+    session_id UUID PRIMARY KEY,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES app_user(id)
+);
+
