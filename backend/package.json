@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon",
-    "build": "rimraf ./dist && tsc && cp src/db/init.sql dist/db/init.sql && node dist/db/initDb.js",
-    "start": "npm run build && node dist/index.js"
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build && node dist/index.js",
+    "initDb": "cp src/db/init.sql dist/db/init.sql && node dist/db/initDb.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
+    "joi": "^17.12.3",
     "pg": "^8.11.3",
     "sequelize": "^6.37.1",
     "sequelize-typescript": "^2.1.6"
@@ -32,6 +34,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
+    "joi-to-typescript": "^4.13.0",
     "nodemon": "^3.1.0",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
