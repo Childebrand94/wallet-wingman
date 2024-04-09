@@ -19,7 +19,7 @@ export const pool = new Pool({
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const initDB = async () => {
+const initDB = async () => {
     try {
         const sql = readFileSync(resolve(__dirname, 'init.sql'), { encoding: 'utf-8' });
         await pool.query(sql);
@@ -29,11 +29,12 @@ export const initDB = async () => {
     }
 };
 
-(async () => {
-    try {
-        await initDB();
-    } catch (error) {
-        console.error('Failed to initialize the database:', error);
-    }
-})();
-
+if (process.env.INIT_DB === 'true') {
+    (async () => {
+        try {
+            await initDB();
+        } catch (error) {
+            console.error('Failed to initialize the database:', error);
+        }
+    })();
+}
